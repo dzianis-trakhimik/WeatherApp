@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="weather_api">https://api.open-meteo.com/v1/forecast</string>
+    <string name="weather_api_latitude">latitude</string>
+    <string name="weather_api_longitude">longitude</string>
+    <string name="weather_api_current_weather">current_weather</string>
+    <string name="weather_api_past_days">past_days</string>
+</resources>
