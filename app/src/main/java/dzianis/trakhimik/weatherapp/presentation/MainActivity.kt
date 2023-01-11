@@ -7,16 +7,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
+import dzianis.trakhimik.weatherapp.domain.weather.WeatherData
 import dzianis.trakhimik.weatherapp.presentation.ui.components.WeatherCard
+import dzianis.trakhimik.weatherapp.presentation.ui.components.WeatherForeCast
+import dzianis.trakhimik.weatherapp.ui.theme.DarkBlue
 import dzianis.trakhimik.weatherapp.ui.theme.WeatherAppTheme
 
 @AndroidEntryPoint
@@ -51,17 +56,51 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(state: WeatherState) {
-    if (state.isLoading) {
-        Text(text = "LOADING...")
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        if (state.isLoading) {
+            CircularProgressIndicator()
+        }
+        if (state.error?.isNotEmpty() ?: false) {
+            Text(text = "ERROR: ${state.error}")
+        }
+        if (state.weatherInfo != null) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                item {
+                    WeatherCard(
+                        state = state,
+                        backgroundColor = DarkBlue,
+                        modifier = Modifier
+                    )
+                }
+                item {
+                    Card(
+                        shape = RoundedCornerShape(16.dp),
+                        backgroundColor = DarkBlue,
+                        modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                        elevation = 6.dp
+                    ) {
+                        WeatherForeCast(
+                            dayName = "TODAY",
+                            forecast = state.weatherInfo.weatherDataPerDay.get(0) ?: listOf()
+                        )
+                    }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                items(
+                    state.weatherInfo.weatherDataPerDay.filter { it.key > 0 }.values.toList<List<WeatherData>>()
+                        ?: listOf<List<WeatherData>>()
+                ) { dayForecast ->
+                    WeatherForeCast(dayForecast)
+                }
+            }
+        }
     }
-    if (state.error?.isNotEmpty() ?: false) {
-        Text(text = "ERROR: ${state.error}")
-    }
-    if (state.weatherInfo != null) {
-        WeatherCard(
-            state = state,
-            backgroundColor = Color.DarkGray,
-            modifier = Modifier.fillMaxSize()
-        )
-    }
+
 }

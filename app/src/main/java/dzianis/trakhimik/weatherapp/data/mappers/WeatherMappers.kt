@@ -2,7 +2,7 @@ package dzianis.trakhimik.weatherapp.data.mappers
 
 import dzianis.trakhimik.weatherapp.data.remote.WeatherDataDto
 import dzianis.trakhimik.weatherapp.data.remote.WeatherDto
-import dzianis.trakhimik.weatherapp.domain.utils.TemperatureConverter
+import dzianis.trakhimik.weatherapp.domain.utils.UnitConverter
 import dzianis.trakhimik.weatherapp.domain.weather.WeatherData
 import dzianis.trakhimik.weatherapp.domain.weather.WeatherInfo
 import dzianis.trakhimik.weatherapp.domain.weather.WeatherType
@@ -26,9 +26,10 @@ fun WeatherDataDto.toWeatherDataMap(): Map<Int, List<WeatherData>> {
             data = WeatherData(
                 time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
                 temperatureCelsius = temperature,
-                temperatureFahrenheit = TemperatureConverter.celsiusToFahrenheit(temperature),
+                temperatureFahrenheit = UnitConverter.celsiusToFahrenheit(temperature),
                 pressure = pressure,
                 windSpeed = windSpeed,
+                windSpeedInMiles = UnitConverter.kmToMiles(windSpeed),
                 humidity = humidity,
                 weatherType = WeatherType.getByWetherCode(weatherCode)
             )
