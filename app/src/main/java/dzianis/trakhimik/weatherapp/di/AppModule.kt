@@ -8,6 +8,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dzianis.trakhimik.weatherapp.data.remote.WeatherApi
+import dzianis.trakhimik.weatherapp.data.repository.WeatherRepositoryImpl
+import dzianis.trakhimik.weatherapp.domain.repository.WeatherRepository
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
@@ -30,5 +32,11 @@ object AppModule {
     @Singleton
     fun provideFuseLocationProviderClient(app: Application): FusedLocationProviderClient {
         return LocationServices.getFusedLocationProviderClient(app)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(api: WeatherApi, app: Application): WeatherRepository {
+        return WeatherRepositoryImpl(api, app)
     }
 }

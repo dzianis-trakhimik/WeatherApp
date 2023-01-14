@@ -3,5 +3,6 @@
 
     <style name="Theme.WeatherApp" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/deep_blue</item>
+        <item name="android:windowBackground">@color/deep_blue</item>
     </style>
 </resources>

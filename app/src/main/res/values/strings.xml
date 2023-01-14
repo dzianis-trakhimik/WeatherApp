@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="gps_error">GPS error: couldn\'t retrieve location. Check permissions for location and enable GPS</string>
+    <string name="network_error">Network error: please check your connection</string>
+    <string name="common_error">Error of get updated weather, check your network connection or enable GPS</string>
+    <string name="unknown_error">An unknown error occurred</string>
+    <string name="today">Today</string>
+    <string name="refresh">Refresh</string>
 </resources>

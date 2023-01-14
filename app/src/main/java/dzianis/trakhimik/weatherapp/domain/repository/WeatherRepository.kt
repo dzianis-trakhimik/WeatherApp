@@ -6,6 +6,7 @@ import dzianis.trakhimik.weatherapp.domain.weather.WeatherInfo
 interface WeatherRepository {
     suspend fun getWeatherData(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        timezone: String
     ): Resource<WeatherInfo>
 }

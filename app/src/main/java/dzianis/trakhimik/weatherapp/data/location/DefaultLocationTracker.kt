@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.Priority
 import dzianis.trakhimik.weatherapp.domain.location.LocationTracker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -39,7 +39,9 @@ class DefaultLocationTracker @Inject constructor(
         }
 
         return suspendCancellableCoroutine { cont ->
-            locationClient.lastLocation.apply {
+            locationClient.getCurrentLocation(
+                Priority.PRIORITY_BALANCED_POWER_ACCURACY, null
+            ).apply {
                 if (isComplete) {
                     if(isSuccessful) {
                         cont.resume(result)
